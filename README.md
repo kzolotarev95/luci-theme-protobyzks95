@@ -23,6 +23,3 @@
 ## Кастомный hostname в шапке
 
 Тема дорабатывает блок имени роутера:
-
-```html
-<span class="hostname"><a href="/">WBR3000UAX</a></span>
