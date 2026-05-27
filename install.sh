@@ -32,6 +32,15 @@ tar -czf "$BACKUP" \
 
 echo "$BACKUP" > /root/LAST-proton2025-install-backup.txt
 
+echo "[proton2025] install LuCI JS resources"
+MENU_RESOURCE_SRC="$(find "$WORKDIR" -type f -path "*/htdocs/luci-static/resources/menu-proton2025.js" | head -n 1)"
+if [ -f "$MENU_RESOURCE_SRC" ]; then
+  mkdir -p /www/luci-static/resources
+  cp -a "$MENU_RESOURCE_SRC" /www/luci-static/resources/menu-proton2025.js || { echo "[proton2025] ERROR: failed to copy menu resource"; exit 1; }
+else
+  echo "[proton2025] WARNING: menu-proton2025.js not found in archive"
+fi
+
 rm -rf "$WORKDIR" "$TGZ"
 mkdir -p "$WORKDIR"
 

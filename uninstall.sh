@@ -27,6 +27,7 @@ find /www/luci-static -maxdepth 1 -type l -name 'proton2025-*' -exec rm -f {} \;
 rm -rf /usr/share/ucode/luci/template/themes/proton2025
 rm -rf /usr/lib/lua/luci/view/themes/proton2025
 rm -f /usr/bin/proton2025-cache-reset
+rm -f /www/luci-static/resources/menu-proton2025.js
 
 echo "[proton2025] clear LuCI cache"
 rm -rf /tmp/luci-* /tmp/luci-indexcache*
