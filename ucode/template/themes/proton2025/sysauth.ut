@@ -61,7 +61,7 @@
 <meta name="color-scheme" content="dark" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-<link rel="stylesheet" href="{{ media }}/cascade.css" />
+<link rel="stylesheet" href="{{ media }}/cascade.css?v=1779915139" />
 <link rel="icon" href="{{ media }}/logo.svg" sizes="any" />
 <title>{{ _('Authorization Required') }} - {{ boardinfo.hostname ?? '?' }} - LuCI</title>
 </head>
@@ -182,6 +182,6 @@
 </script>
 </body>
 </html>
-<script src="/luci-static/proton2025-1779870329/login-logo-text.js?v=1779870329"></script>
-<script src="/luci-static/proton2025-1779870329/login-logo-animation-fix.js?v=1779870329"></script>
-<script src="/luci-static/proton2025-1779870329/progressbar-3colors.js?v=1779870329"></script>
+<script src="/luci-static/proton2025/login-logo-text.js?v=1779915139"></script>
+<script src="/luci-static/proton2025/login-logo-animation-fix.js?v=1779915139"></script>
+<script src="/luci-static/proton2025/progressbar-3colors.js?v=1779915139"></script>

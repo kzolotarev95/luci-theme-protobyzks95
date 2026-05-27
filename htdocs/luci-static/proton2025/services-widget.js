@@ -1,3 +1,34 @@
+/* Proton2025: PROTON_LPOLL_COMPAT_V1 */
+(function () {
+try {
+if (!window.L)
+return;
+
+L.poll = L.poll || {};
+
+if (typeof L.poll.add !== 'function') {
+L.poll.add = function (fn, interval) {
+var ms = Math.max(1000, Number(interval || 5) * 1000);
+
+if (typeof fn !== 'function')
+return null;
+
+if (typeof L.require === 'function') {
+return L.require('poll').then(function (poll) {
+if (poll && typeof poll.add === 'function')
+return poll.add(fn, interval);
+
+return window.setInterval(fn, ms);
+}).catch(function () {
+return window.setInterval(fn, ms);
+});
+}
+
+return window.setInterval(fn, ms);
+};
+}
+} catch (e) {}
+})();
 /**
  * Proton2025 - Services Widget
  * Мониторинг сервисов с группировкой и поиском
