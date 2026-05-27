@@ -92,6 +92,10 @@ else
   echo "[proton2025] WARNING: cache reset helper not found in archive"
 fi
 
+echo "[proton2025] register theme in LuCI theme list"
+uci -q get luci.themes >/dev/null 2>&1 || uci set luci.themes="internal"
+uci set luci.themes.ProtoByZKS95="/luci-static/proton2025"
+
 echo "[proton2025] set active LuCI theme"
 uci set luci.main.mediaurlbase='/luci-static/proton2025'
 uci commit luci

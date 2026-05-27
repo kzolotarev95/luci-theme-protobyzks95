@@ -4,7 +4,9 @@ STAMP="$(date +%s)"
 
 echo "[proton2025] cache bust stamp: $STAMP"
 
-uci set luci.main.mediaurlbase='/luci-static/proton2025' 2>/dev/null || true
+uci -q get luci.themes >/dev/null 2>&1 || uci set luci.themes='internal'
+uci set luci.themes.ProtoByZKS95='/luci-static/proton2025'
+uci set luci.main.mediaurlbase='/luci-static/proton2025'
 uci commit luci 2>/dev/null || true
 
 find /www/luci-static -maxdepth 1 -type l -name 'proton2025-*' -exec rm -f {} \; 2>/dev/null || true
@@ -31,3 +33,6 @@ rm -rf /tmp/luci-* /tmp/luci-indexcache*
 echo "[proton2025] cache reset OK"
 echo "[proton2025] active mediaurlbase:"
 uci get luci.main.mediaurlbase 2>/dev/null || true
+
+echo "[proton2025] registered themes:"
+uci show luci.themes 2>/dev/null || true

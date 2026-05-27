@@ -16,6 +16,8 @@ tar -czf "$BACKUP" \
 echo "$BACKUP" > /root/LAST-proton2025-uninstall-backup.txt
 
 echo "[proton2025] switch LuCI theme to bootstrap"
+echo "[proton2025] unregister theme from LuCI theme list"
+uci -q delete luci.themes.ProtoByZKS95 2>/dev/null || true
 uci set luci.main.mediaurlbase='/luci-static/bootstrap'
 uci commit luci
 
