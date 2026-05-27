@@ -12298,3 +12298,144 @@ gap: 14px !important;
 max-width: 320px !important;
 }
 }
+
+/* Proton2025: compact optimized hostname header */
+body span.hostname {
+display: inline-flex !important;
+align-items: center !important;
+justify-content: center !important;
+max-width: min(260px, calc(100vw - 120px)) !important;
+min-width: 0 !important;
+margin: 0 !important;
+padding: 0 !important;
+line-height: 1 !important;
+vertical-align: middle !important;
+}
+
+body span.hostname > a,
+body span.hostname > a.proton-hostname-live {
+display: inline-flex !important;
+align-items: center !important;
+justify-content: center !important;
+
+max-width: 100% !important;
+min-height: 26px !important;
+height: 26px !important;
+
+padding: 3px 10px !important;
+margin: 0 !important;
+
+border-radius: 999px !important;
+border: 1px solid rgba(255, 215, 0, 0.82) !important;
+outline: 1px solid rgba(255, 245, 170, 0.32) !important;
+outline-offset: 1px !important;
+
+font-size: clamp(13px, 1.25vw, 16px) !important;
+font-weight: 850 !important;
+letter-spacing: 0.32px !important;
+line-height: 1 !important;
+
+white-space: nowrap !important;
+overflow: hidden !important;
+text-overflow: ellipsis !important;
+
+color: #ffd95a !important;
+-webkit-text-fill-color: #ffd95a !important;
+
+background:
+linear-gradient(135deg,
+rgba(8, 8, 10, 0.58),
+rgba(34, 24, 6, 0.42)
+) !important;
+
+box-shadow:
+0 0 0 1px rgba(70, 45, 0, 0.42),
+0 0 9px rgba(255, 215, 0, 0.22),
+0 3px 10px rgba(0, 0, 0, 0.22),
+inset 0 0 0 1px rgba(255, 255, 255, 0.055) !important;
+
+text-shadow:
+0 1px 1px rgba(0,0,0,0.9),
+0 0 5px rgba(255,215,0,0.38) !important;
+
+transform: translateZ(0) !important;
+box-sizing: border-box !important;
+}
+
+body span.hostname > a.proton-hostname-live .proton-host-letter {
+display: inline-block !important;
+min-width: 0 !important;
+margin: 0 !important;
+padding: 0 !important;
+
+font-size: inherit !important;
+font-weight: inherit !important;
+line-height: 1 !important;
+letter-spacing: inherit !important;
+
+transform-origin: 50% 60% !important;
+will-change: transform, opacity, filter !important;
+}
+
+/* уменьшаем слишком размашистые анимации hostname */
+body span.hostname > a.proton-hostname-live {
+scale: 0.92 !important;
+transform-origin: center center !important;
+}
+
+/* режимы с сильным зумом/поворотом делаем спокойнее */
+body span.hostname > a.proton-hna-mode-14,
+body span.hostname > a.proton-hna-mode-15,
+body span.hostname > a.proton-hna-mode-16,
+body span.hostname > a.proton-hna-mode-19 {
+scale: 0.86 !important;
+}
+
+@media (max-width: 900px) {
+body span.hostname {
+max-width: min(210px, calc(100vw - 96px)) !important;
+}
+
+body span.hostname > a,
+body span.hostname > a.proton-hostname-live {
+height: 24px !important;
+min-height: 24px !important;
+padding: 3px 8px !important;
+font-size: 13px !important;
+letter-spacing: 0.22px !important;
+box-shadow:
+0 0 0 1px rgba(70, 45, 0, 0.34),
+0 0 6px rgba(255, 215, 0, 0.18),
+0 2px 7px rgba(0, 0, 0, 0.20) !important;
+}
+
+body span.hostname > a.proton-hostname-live {
+scale: 0.88 !important;
+}
+
+body span.hostname > a.proton-hna-mode-14,
+body span.hostname > a.proton-hna-mode-15,
+body span.hostname > a.proton-hna-mode-16,
+body span.hostname > a.proton-hna-mode-19 {
+scale: 0.82 !important;
+}
+}
+
+@media (max-width: 520px) {
+body span.hostname {
+max-width: min(165px, calc(100vw - 82px)) !important;
+}
+
+body span.hostname > a,
+body span.hostname > a.proton-hostname-live {
+height: 22px !important;
+min-height: 22px !important;
+padding: 2px 7px !important;
+font-size: 12px !important;
+letter-spacing: 0.12px !important;
+}
+
+body span.hostname > a.proton-hostname-live {
+scale: 0.84 !important;
+}
+}
