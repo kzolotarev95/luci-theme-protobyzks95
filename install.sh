@@ -99,7 +99,6 @@ fi
 echo "[proton2025] register theme in LuCI"
 uci -q get luci.themes >/dev/null 2>&1 || uci set luci.themes='internal'
 uci set luci.themes.ProtoByZKS95='/luci-static/proton2025'
-uci set luci.themes.Proton2025='/luci-static/proton2025'
 uci set luci.main.mediaurlbase='/luci-static/proton2025'
 uci commit luci
 

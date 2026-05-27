@@ -18,7 +18,6 @@ uci set luci.main.mediaurlbase='/luci-static/bootstrap'
 
 echo "[proton2025] unregister theme"
 uci -q delete luci.themes.ProtoByZKS95 2>/dev/null || true
-uci -q delete luci.themes.Proton2025 2>/dev/null || true
 uci commit luci
 
 echo "[proton2025] remove files"
