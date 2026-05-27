@@ -23,13 +23,19 @@
 
 Тема добавляет современный тёмный интерфейс, золотые акценты, анимацию имени роутера, настраиваемый логотип страницы входа, цветные progressbar-индикаторы и автоматический сброс кэша браузера после установки.
 
-Репозиторий:
+## Установка
 
-```text
-kzolotarev95/luci-theme-protobyzks95
+```sh
+wget -O- "https://raw.githubusercontent.com/kzolotarev95/luci-theme-protobyzks95/main/install.sh?v=$(date +%s)" | sh
 ```
 
----
+
+## Удаление
+
+```sh
+wget -O- "https://raw.githubusercontent.com/kzolotarev95/luci-theme-protobyzks95/main/uninstall.sh?v=$(date +%s)" | sh
+```
+
 
 ## Возможности
 
@@ -147,14 +153,6 @@ LuCI progressbar получает цветовую индикацию:
 
 ---
 
-## Установка
-
-### Публичная репа
-
-```sh
-wget -O- "https://raw.githubusercontent.com/kzolotarev95/luci-theme-protobyzks95/main/install.sh?v=$(date +%s)" | sh
-```
-
 ## Структура проекта
 
 ```text
@@ -203,7 +201,3 @@ LuCI 25.x
 uhttpd
 rpcd
 ```
-
-
-
-
