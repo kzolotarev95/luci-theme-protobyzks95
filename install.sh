@@ -96,7 +96,7 @@ echo "[proton2025] set active LuCI theme"
 uci set luci.main.mediaurlbase='/luci-static/proton2025'
 uci commit luci
 
-echo "[proton2025] force browser cache bust"
+echo "[proton2025] clear LuCI/browser cache safely"
 if command -v proton2025-cache-reset >/dev/null 2>&1; then
   proton2025-cache-reset
 else
@@ -108,5 +108,7 @@ fi
 rm -rf "$WORKDIR" "$TGZ"
 
 echo "[proton2025] installed OK"
+echo "[proton2025] active mediaurlbase:"
+uci get luci.main.mediaurlbase 2>/dev/null || true
 echo "[proton2025] backup:"
 cat /root/LAST-proton2025-install-backup.txt
