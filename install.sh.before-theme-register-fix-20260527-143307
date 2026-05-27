@@ -9,24 +9,13 @@ WORKDIR="/tmp/${REPO_NAME}-install-$$"
 TGZ="/tmp/${REPO_NAME}-${BRANCH}-$$.tar.gz"
 BACKUP="/root/proton2025-before-install-$STAMP.tar.gz"
 
-echo "[proton2025] cleanup old temp/cache"
-rm -rf /tmp/${REPO_NAME}-install-* /tmp/${REPO_NAME}-*.tar.gz /tmp/luci-* /tmp/luci-indexcache*
-rm -rf /usr/lib/lua/luci/view/themes/proton2025
-find /www/luci-static -maxdepth 1 -type l -name 'proton2025-*' -exec rm -f {} \; 2>/dev/null || true
-
-FREE_KB="$(df -k /overlay 2>/dev/null | awk 'NR==2{print $4+0}')"
-if [ -n "$FREE_KB" ] && [ "$FREE_KB" -lt 3072 ]; then
-  echo "[proton2025] ERROR: not enough free flash space on /overlay"
-  echo "[proton2025] free: ${FREE_KB} KB, need at least 3072 KB"
-  df -h /overlay
-  exit 1
-fi
-
 echo "[proton2025] backup: $BACKUP"
 
 tar -czf "$BACKUP" \
   /www/luci-static/proton2025 \
+  /www/luci-static/proton2025-* \
   /usr/share/ucode/luci/template/themes/proton2025 \
+  /usr/lib/lua/luci/view/themes/proton2025 \
   /etc/config/luci \
   /usr/bin/proton2025-cache-reset 2>/tmp/proton2025-install-backup-warnings.log || true
 
@@ -59,10 +48,14 @@ THEME_SRC="$(dirname "$CASCADE_FILE" 2>/dev/null)"
 UCODE_HEADER="$(find "$WORKDIR" -type f -path '*/ucode/template/themes/proton2025/header.ut' | head -n 1)"
 UCODE_SRC="$(dirname "$UCODE_HEADER" 2>/dev/null)"
 
+LUA_HEADER="$(find "$WORKDIR" -type f -path '*/luasrc/view/themes/proton2025/header.htm' | head -n 1)"
+LUA_SRC="$(dirname "$LUA_HEADER" 2>/dev/null)"
+
 CACHE_RESET_SRC="$(find "$WORKDIR" -type f -path '*/root/usr/bin/proton2025-cache-reset' | head -n 1)"
 
 if [ ! -f "$CASCADE_FILE" ] || [ ! -d "$THEME_SRC" ]; then
   echo "[proton2025] ERROR: cascade.css not found in archive"
+  echo "[proton2025] archive files sample:"
   find "$WORKDIR" -type f | sed -n '1,120p'
   rm -rf "$WORKDIR" "$TGZ"
   exit 1
@@ -72,34 +65,34 @@ echo "[proton2025] theme source: $THEME_SRC"
 
 echo "[proton2025] install static files"
 rm -rf /www/luci-static/proton2025
+find /www/luci-static -maxdepth 1 -type l -name 'proton2025-*' -exec rm -f {} \; 2>/dev/null || true
+
 mkdir -p /www/luci-static/proton2025
-cp -a "$THEME_SRC/." /www/luci-static/proton2025/ || {
-  echo "[proton2025] ERROR: failed to copy static files"
-  df -h /overlay
-  exit 1
-}
+cp -a "$THEME_SRC/." /www/luci-static/proton2025/
 
 if [ -d "$UCODE_SRC" ]; then
   echo "[proton2025] install ucode templates"
   rm -rf /usr/share/ucode/luci/template/themes/proton2025
   mkdir -p /usr/share/ucode/luci/template/themes/proton2025
-  cp -a "$UCODE_SRC/." /usr/share/ucode/luci/template/themes/proton2025/ || {
-    echo "[proton2025] ERROR: failed to copy ucode templates"
-    df -h /overlay
-    exit 1
-  }
+  cp -a "$UCODE_SRC/." /usr/share/ucode/luci/template/themes/proton2025/
+fi
+
+if [ -d "$LUA_SRC" ]; then
+  echo "[proton2025] install lua templates"
+  rm -rf /usr/lib/lua/luci/view/themes/proton2025
+  mkdir -p /usr/lib/lua/luci/view/themes/proton2025
+  cp -a "$LUA_SRC/." /usr/lib/lua/luci/view/themes/proton2025/
 fi
 
 if [ -f "$CACHE_RESET_SRC" ]; then
   echo "[proton2025] install cache reset helper"
   cp -a "$CACHE_RESET_SRC" /usr/bin/proton2025-cache-reset
   chmod +x /usr/bin/proton2025-cache-reset
+else
+  echo "[proton2025] WARNING: cache reset helper not found in archive"
 fi
 
-echo "[proton2025] register theme in LuCI"
-uci -q get luci.themes >/dev/null 2>&1 || uci set luci.themes='internal'
-uci set luci.themes.ProtoByZKS95='/luci-static/proton2025'
-uci set luci.themes.Proton2025='/luci-static/proton2025'
+echo "[proton2025] set active LuCI theme"
 uci set luci.main.mediaurlbase='/luci-static/proton2025'
 uci commit luci
 
@@ -117,7 +110,5 @@ rm -rf "$WORKDIR" "$TGZ"
 echo "[proton2025] installed OK"
 echo "[proton2025] active mediaurlbase:"
 uci get luci.main.mediaurlbase 2>/dev/null || true
-echo "[proton2025] registered themes:"
-uci show luci.themes 2>/dev/null || true
 echo "[proton2025] backup:"
 cat /root/LAST-proton2025-install-backup.txt
