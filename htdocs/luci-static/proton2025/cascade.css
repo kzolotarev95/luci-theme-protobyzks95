@@ -12193,3 +12193,108 @@ rgba(185, 78, 72, 0.88)
 box-shadow:
 0 0 8px rgba(150, 58, 58, 0.24) !important;
 }
+
+/* Proton2025: center temperature cards grid */
+.proton-temp-grid,
+#proton-temp-grid {
+width: 100% !important;
+max-width: 980px !important;
+margin: 18px auto !important;
+padding: 0 12px !important;
+
+display: grid !important;
+grid-template-columns: repeat(auto-fit, minmax(220px, 280px)) !important;
+justify-content: center !important;
+align-items: stretch !important;
+justify-items: center !important;
+gap: 16px !important;
+
+box-sizing: border-box !important;
+}
+
+.proton-temp-grid .proton-temp-card,
+#proton-temp-grid .proton-temp-card {
+width: 100% !important;
+max-width: 280px !important;
+min-width: 0 !important;
+margin: 0 auto !important;
+
+display: flex !important;
+flex-direction: column !important;
+align-items: center !important;
+justify-content: space-between !important;
+
+text-align: center !important;
+box-sizing: border-box !important;
+}
+
+.proton-temp-value-container,
+.proton-temp-value-wrapper,
+.proton-temp-status {
+width: 100% !important;
+display: flex !important;
+align-items: center !important;
+justify-content: center !important;
+text-align: center !important;
+box-sizing: border-box !important;
+}
+
+.proton-temp-value-container {
+flex-direction: column !important;
+gap: 6px !important;
+}
+
+.proton-temp-value-wrapper {
+flex-direction: row !important;
+gap: 3px !important;
+line-height: 1 !important;
+}
+
+.proton-temp-sensor-name {
+width: 100% !important;
+max-width: 100% !important;
+margin: 6px auto 0 auto !important;
+text-align: center !important;
+white-space: nowrap !important;
+overflow: hidden !important;
+text-overflow: ellipsis !important;
+}
+
+.proton-temp-bar-container {
+width: 100% !important;
+max-width: 220px !important;
+margin: 12px auto 10px auto !important;
+box-sizing: border-box !important;
+}
+
+.proton-temp-status {
+flex-wrap: wrap !important;
+gap: 6px !important;
+margin-top: auto !important;
+}
+
+.proton-temp-status-dot {
+flex: 0 0 auto !important;
+}
+
+.proton-temp-status-text,
+.proton-temp-peak {
+text-align: center !important;
+white-space: nowrap !important;
+}
+
+@media (max-width: 760px) {
+.proton-temp-grid,
+#proton-temp-grid {
+max-width: 100% !important;
+grid-template-columns: minmax(220px, 320px) !important;
+padding-left: 10px !important;
+padding-right: 10px !important;
+gap: 14px !important;
+}
+
+.proton-temp-grid .proton-temp-card,
+#proton-temp-grid .proton-temp-card {
+max-width: 320px !important;
+}
+}
