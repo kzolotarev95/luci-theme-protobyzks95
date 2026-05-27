@@ -1,0 +1,187 @@
+{#
+ Proton2025 Theme - Login Template
+ Licensed under Apache License 2.0
+-#}
+
+{%
+	const boardinfo = ubus.call('system', 'board');
+
+	http.prepare_content('text/html; charset=UTF-8');
+-%}
+
+<!DOCTYPE html>
+<html lang="{{ dispatcher.lang }}">
+<head>
+<meta charset="utf-8" />
+<script>
+// Apply all theme settings from localStorage (same as header.ut)
+(function() {
+	// Theme mode (dark/light)
+	var themeMode = localStorage.getItem('proton-theme-mode') || 'dark';
+	if (themeMode === 'light') {
+		document.documentElement.setAttribute('data-theme', 'light');
+	}
+	
+	// Zoom
+	var defaultZoom = '100';
+	var z = localStorage.getItem('proton-zoom') || defaultZoom;
+	document.documentElement.style.zoom = z / 100;
+	
+	// Transparency
+	var t = localStorage.getItem('proton-transparency');
+	if (t !== 'false') document.documentElement.classList.add('proton-transparency');
+	
+	// Border radius
+	var r = localStorage.getItem('proton-border-radius');
+	if (r === 'sharp') document.documentElement.classList.add('proton-radius-sharp');
+	else if (r === 'extra') document.documentElement.classList.add('proton-radius-extra');
+	
+	// Accent color
+	var a = localStorage.getItem('proton-accent-color') || 'blue';
+	var c = {
+		default: { accent: '#4b5563', hover: '#374151', glow: 'rgba(75, 85, 99, 0.22)' },
+		blue:    { accent: '#5e9eff', hover: '#7db2ff', glow: 'rgba(94, 158, 255, 0.18)' },
+		purple:  { accent: '#a78bfa', hover: '#c3b4ff', glow: 'rgba(167, 139, 250, 0.22)' },
+		green:   { accent: '#34d399', hover: '#2fb885', glow: 'rgba(52, 211, 153, 0.18)' },
+		orange:  { accent: '#fb923c', hover: '#f47c1f', glow: 'rgba(251, 146, 60, 0.20)' },
+		red:     { accent: '#f87171', hover: '#f04c4c', glow: 'rgba(248, 113, 113, 0.20)' }
+	};
+	if (c[a]) {
+		document.documentElement.style.setProperty('--proton-accent', c[a].accent);
+		document.documentElement.style.setProperty('--proton-accent-hover', c[a].hover);
+		document.documentElement.style.setProperty('--proton-accent-glow', c[a].glow);
+	}
+	
+	// Animations
+	if (localStorage.getItem('proton-animations') === 'false') document.documentElement.classList.add('proton-no-animations');
+})();
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#0f1419" />
+<meta name="color-scheme" content="dark" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<link rel="stylesheet" href="{{ media }}/cascade.css" />
+<link rel="icon" href="{{ media }}/logo.svg" sizes="any" />
+<title>{{ _('Authorization Required') }} - {{ boardinfo.hostname ?? '?' }} - LuCI</title>
+</head>
+<body class="login-page lang_{{ dispatcher.lang }}" data-lang="{{ dispatcher.lang }}">
+<div class="login-container">
+	<div class="login-card">
+		<div class="login-header">
+			<svg class="login-logo" viewBox="0 0 200 60" aria-label="Proton2025">
+				<circle cx="25" cy="30" r="18" fill="var(--proton-accent)" opacity="0.2"/>
+				<circle cx="25" cy="30" r="12" fill="var(--proton-accent)" opacity="0.4"/>
+				<circle cx="25" cy="30" r="6" fill="var(--proton-accent)"/>
+				<ellipse cx="25" cy="30" rx="22" ry="8" fill="none" stroke="var(--proton-accent)" stroke-width="1.5" opacity="0.6" transform="rotate(-20 25 30)"/>
+				<ellipse cx="25" cy="30" rx="22" ry="8" fill="none" stroke="var(--proton-accent)" stroke-width="1.5" opacity="0.4" transform="rotate(40 25 30)"/>
+				<text x="55" y="38" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="24" font-weight="600" fill="var(--proton-fg)">Proton<tspan fill="var(--proton-accent)">2025</tspan></text>
+			</svg>
+		</div>
+
+		{% if (fuser): %}
+		<div class="login-error">
+			{{ _('Invalid username and/or password! Please try again.') }}
+		</div>
+		{% endif %}
+
+		<form class="login-form" method="post" action="{{ dispatcher.build_url(...ctx.request_path) }}">
+			<div class="form-group">
+				<label for="luci_username">{{ _('Username') }}</label>
+				<input type="text" id="luci_username" name="luci_username"
+					value="{{ fuser ?? 'root' }}" autocomplete="username"
+					autocapitalize="off" autofocus />
+			</div>
+
+			<div class="form-group">
+				<label for="luci_password">{{ _('Password') }}</label>
+				<input type="password" id="luci_password" name="luci_password"
+					autocomplete="current-password" />
+			</div>
+
+			<button type="submit">{{ _('Log in') }}</button>
+		</form>
+	</div>
+</div>
+
+<script>
+// Mobile keyboard stability
+// Avoid scrollIntoView({behavior:'smooth'}) + window.resize loops which can hide/show the keyboard.
+// Use visualViewport when available and only do minimal, non-animated adjustments.
+(function () {
+	var body = document.body;
+	var container = document.querySelector('.login-container');
+	if (!body || !container) return;
+
+	var vv = window.visualViewport || null;
+	var raf = 0;
+
+	function setViewportVars() {
+		if (!vv) return;
+		document.documentElement.style.setProperty('--proton-vv-height', vv.height + 'px');
+	}
+
+	function isKeyboardOpen() {
+		if (!vv) return false;
+		// Conservative threshold; avoids toggling on small UI chrome changes
+		return vv.height < (window.innerHeight - 120);
+	}
+
+	function applyKeyboardClass() {
+		setViewportVars();
+		body.classList.toggle('proton-kb-open', isKeyboardOpen());
+	}
+
+	function keepFocusedInputVisible() {
+		var el = document.activeElement;
+		if (!el || el.tagName !== 'INPUT') return;
+
+		var margin = 16;
+		var top = vv ? vv.offsetTop : 0;
+		var height = vv ? vv.height : window.innerHeight;
+		var bottom = top + height;
+		var r = el.getBoundingClientRect();
+
+		var delta = 0;
+		if (r.bottom > bottom - margin) delta = r.bottom - (bottom - margin);
+		else if (r.top < top + margin) delta = r.top - (top + margin);
+
+		if (!delta) return;
+		container.scrollTop = container.scrollTop + delta;
+	}
+
+	function scheduleAdjust() {
+		if (raf) cancelAnimationFrame(raf);
+		raf = requestAnimationFrame(function () {
+			applyKeyboardClass();
+			// One more tick after layout settles (keyboard animation)
+			setTimeout(function () {
+				applyKeyboardClass();
+				keepFocusedInputVisible();
+			}, 0);
+		});
+	}
+
+	document.addEventListener('focusin', function (e) {
+		if (e && e.target && e.target.tagName === 'INPUT') scheduleAdjust();
+	}, true);
+
+	document.addEventListener('focusout', function () {
+		setTimeout(scheduleAdjust, 50);
+	}, true);
+
+	if (vv) {
+		vv.addEventListener('resize', scheduleAdjust);
+		vv.addEventListener('scroll', scheduleAdjust);
+	} else {
+		window.addEventListener('resize', scheduleAdjust);
+	}
+
+	scheduleAdjust();
+})();
+</script>
+</body>
+</html>
+<script src="/luci-static/proton2025/login-logo-text.js?v=1779869910"></script>
+<script src="/luci-static/proton2025/login-logo-animation-fix.js?v=1779869910"></script>
+<script src="/luci-static/proton2025/progressbar-3colors.js?v=1779869910"></script>

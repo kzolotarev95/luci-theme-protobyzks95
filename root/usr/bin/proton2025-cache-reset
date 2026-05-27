@@ -1,0 +1,22 @@
+#!/bin/sh
+
+STAMP="$(date +%s)"
+
+for f in \
+  /usr/share/ucode/luci/template/themes/proton2025/footer.ut \
+  /usr/share/ucode/luci/template/themes/proton2025/header.ut \
+  /usr/share/ucode/luci/template/themes/proton2025/sysauth.ut \
+  /usr/lib/lua/luci/view/themes/proton2025/footer.htm \
+  /usr/lib/lua/luci/view/themes/proton2025/header.htm
+do
+[ -f "$f" ] || continue
+
+sed -i -E "s#(/luci-static/proton2025/[^\"']+\.js)(\?v=[0-9]+)?#\1?v=$STAMP#g" "$f"
+done
+
+rm -rf /tmp/luci-* /tmp/luci-indexcache*
+
+/etc/init.d/rpcd restart 2>/dev/null || true
+/etc/init.d/uhttpd restart 2>/dev/null || true
+
+echo "Proton2025 cache reset OK: $STAMP"
