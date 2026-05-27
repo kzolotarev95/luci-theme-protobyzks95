@@ -113,6 +113,12 @@ fi
 
 rm -rf "$WORKDIR" "$TGZ"
 
+echo "[proton2025] final theme name cleanup"
+uci -q delete luci.themes.Proton2025 2>/dev/null || true
+uci set luci.themes.ProtoByZKS95="/luci-static/proton2025"
+uci set luci.main.mediaurlbase="/luci-static/proton2025"
+uci commit luci
+
 echo "[proton2025] installed OK"
 echo "[proton2025] active mediaurlbase:"
 uci get luci.main.mediaurlbase 2>/dev/null || true

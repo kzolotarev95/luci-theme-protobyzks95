@@ -5,6 +5,7 @@ STAMP="$(date +%s)"
 echo "[proton2025] cache bust stamp: $STAMP"
 
 uci -q get luci.themes >/dev/null 2>&1 || uci set luci.themes='internal'
+uci -q delete luci.themes.Proton2025 2>/dev/null || true
 uci set luci.themes.ProtoByZKS95='/luci-static/proton2025'
 uci set luci.main.mediaurlbase='/luci-static/proton2025'
 uci commit luci 2>/dev/null || true
