@@ -7,6 +7,7 @@ echo "[proton2025] backup before uninstall: $BACKUP"
 
 tar -czf "$BACKUP" \
   /www/luci-static/proton2025 \
+  /www/luci-static/proton2025-* \
   /usr/share/ucode/luci/template/themes/proton2025 \
   /usr/lib/lua/luci/view/themes/proton2025 \
   /etc/config/luci \
@@ -20,6 +21,7 @@ uci commit luci
 
 echo "[proton2025] remove Proton2025 files"
 rm -rf /www/luci-static/proton2025
+find /www/luci-static -maxdepth 1 -type l -name 'proton2025-*' -exec rm -f {} \; 2>/dev/null || true
 rm -rf /usr/share/ucode/luci/template/themes/proton2025
 rm -rf /usr/lib/lua/luci/view/themes/proton2025
 rm -f /usr/bin/proton2025-cache-reset

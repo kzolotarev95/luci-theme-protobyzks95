@@ -13,6 +13,7 @@ echo "[proton2025] backup: $BACKUP"
 
 tar -czf "$BACKUP" \
   /www/luci-static/proton2025 \
+  /www/luci-static/proton2025-* \
   /usr/share/ucode/luci/template/themes/proton2025 \
   /usr/lib/lua/luci/view/themes/proton2025 \
   /etc/config/luci \
@@ -64,6 +65,8 @@ echo "[proton2025] theme source: $THEME_SRC"
 
 echo "[proton2025] install static files"
 rm -rf /www/luci-static/proton2025
+find /www/luci-static -maxdepth 1 -type l -name 'proton2025-*' -exec rm -f {} \; 2>/dev/null || true
+
 mkdir -p /www/luci-static/proton2025
 cp -a "$THEME_SRC/." /www/luci-static/proton2025/
 
@@ -85,13 +88,15 @@ if [ -f "$CACHE_RESET_SRC" ]; then
   echo "[proton2025] install cache reset helper"
   cp -a "$CACHE_RESET_SRC" /usr/bin/proton2025-cache-reset
   chmod +x /usr/bin/proton2025-cache-reset
+else
+  echo "[proton2025] WARNING: cache reset helper not found in archive"
 fi
 
 echo "[proton2025] set active LuCI theme"
 uci set luci.main.mediaurlbase='/luci-static/proton2025'
 uci commit luci
 
-echo "[proton2025] clear LuCI cache"
+echo "[proton2025] force browser cache bust"
 if command -v proton2025-cache-reset >/dev/null 2>&1; then
   proton2025-cache-reset
 else

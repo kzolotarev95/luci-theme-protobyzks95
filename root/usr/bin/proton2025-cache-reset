@@ -1,17 +1,33 @@
 #!/bin/sh
 
 STAMP="$(date +%s)"
+STATIC_ROOT="/www/luci-static"
+BASE_DIR="$STATIC_ROOT/proton2025"
+VERSION_DIR_NAME="proton2025-$STAMP"
+VERSION_DIR="$STATIC_ROOT/$VERSION_DIR_NAME"
+
+echo "[proton2025] browser cache bust stamp: $STAMP"
+
+if [ -d "$BASE_DIR" ]; then
+  ln -sfn "$BASE_DIR" "$VERSION_DIR"
+
+  find "$STATIC_ROOT" -maxdepth 1 -type l -name 'proton2025-*' ! -name "$VERSION_DIR_NAME" -exec rm -f {} \; 2>/dev/null || true
+
+  uci set luci.main.mediaurlbase="/luci-static/$VERSION_DIR_NAME" 2>/dev/null || true
+  uci commit luci 2>/dev/null || true
+fi
 
 for f in \
-  /usr/share/ucode/luci/template/themes/proton2025/footer.ut \
   /usr/share/ucode/luci/template/themes/proton2025/header.ut \
+  /usr/share/ucode/luci/template/themes/proton2025/footer.ut \
   /usr/share/ucode/luci/template/themes/proton2025/sysauth.ut \
-  /usr/lib/lua/luci/view/themes/proton2025/footer.htm \
-  /usr/lib/lua/luci/view/themes/proton2025/header.htm
+  /usr/lib/lua/luci/view/themes/proton2025/header.htm \
+  /usr/lib/lua/luci/view/themes/proton2025/footer.htm
 do
-[ -f "$f" ] || continue
+  [ -f "$f" ] || continue
 
-sed -i -E "s#(/luci-static/proton2025/[^\"']+\.js)(\?v=[0-9]+)?#\1?v=$STAMP#g" "$f"
+  sed -i -E "s#/luci-static/proton2025(-[0-9]+)?/#/luci-static/$VERSION_DIR_NAME/#g" "$f"
+  sed -i -E "s#(/luci-static/$VERSION_DIR_NAME/[^\"'<> ]+\.(js|css|svg|png|jpg|jpeg|webp|woff2))(\?v=[0-9]+)?#\1?v=$STAMP#g" "$f"
 done
 
 rm -rf /tmp/luci-* /tmp/luci-indexcache*
@@ -19,4 +35,6 @@ rm -rf /tmp/luci-* /tmp/luci-indexcache*
 /etc/init.d/rpcd restart 2>/dev/null || true
 /etc/init.d/uhttpd restart 2>/dev/null || true
 
-echo "Proton2025 cache reset OK: $STAMP"
+echo "[proton2025] cache reset OK"
+echo "[proton2025] active mediaurlbase:"
+uci get luci.main.mediaurlbase 2>/dev/null || true
