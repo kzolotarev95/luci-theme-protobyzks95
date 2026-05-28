@@ -105,6 +105,13 @@ if [ -f "$CACHE_RESET_SRC" ]; then
   chmod +x /usr/bin/proton2025-cache-reset
 fi
 
+echo "[proton2025] install LuCI shared resources"
+RESOURCE_SRC="$(find "$WORKDIR" -type d -path "*/htdocs/luci-static/resources" | head -n 1)"
+if [ -d "$RESOURCE_SRC" ]; then
+  mkdir -p /www/luci-static/resources
+  cp -a "$RESOURCE_SRC/." /www/luci-static/resources/ || { echo "[proton2025] ERROR: failed to copy LuCI resources"; exit 1; }
+fi
+
 echo "[proton2025] register theme in LuCI"
 uci -q get luci.themes >/dev/null 2>&1 || uci set luci.themes='internal'
 uci set luci.themes.ProtoByZKS95='/luci-static/proton2025'
