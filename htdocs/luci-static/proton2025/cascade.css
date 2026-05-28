@@ -12629,3 +12629,132 @@ a.ss-podcop-sub-v666-shine-v115 {
     white-space: nowrap !important;
 }
 /* SUBSYNC_DONATERS_STYLE_V134_END */
+
+/* Proton2025: compact smaller temp cards final */
+#proton-temp-widget {
+text-align: center !important;
+}
+
+#proton-temp-grid {
+display: grid !important;
+grid-template-columns: repeat(auto-fit, minmax(135px, 150px)) !important;
+justify-content: center !important;
+justify-items: center !important;
+align-items: stretch !important;
+gap: 10px !important;
+width: 100% !important;
+max-width: 520px !important;
+margin: 10px auto 0 auto !important;
+padding: 0 !important;
+}
+
+#proton-temp-grid .proton-temp-card {
+width: 150px !important;
+min-width: 135px !important;
+max-width: 150px !important;
+min-height: 96px !important;
+margin: 0 !important;
+padding: 10px 8px !important;
+box-sizing: border-box !important;
+text-align: center !important;
+border-radius: 14px !important;
+}
+
+#proton-temp-grid .proton-temp-value-wrapper {
+display: flex !important;
+align-items: baseline !important;
+justify-content: center !important;
+gap: 2px !important;
+}
+
+#proton-temp-grid .proton-temp-value {
+font-size: 19px !important;
+line-height: 1 !important;
+font-weight: 800 !important;
+}
+
+#proton-temp-grid .proton-temp-unit {
+font-size: 11px !important;
+line-height: 1 !important;
+opacity: 0.9 !important;
+}
+
+#proton-temp-grid .proton-temp-sensor-name {
+font-size: 11px !important;
+line-height: 1.15 !important;
+margin: 7px 0 0 0 !important;
+text-align: center !important;
+white-space: nowrap !important;
+overflow: hidden !important;
+text-overflow: ellipsis !important;
+}
+
+#proton-temp-grid .proton-temp-bar-container {
+width: 64% !important;
+margin: 7px auto 0 auto !important;
+}
+
+#proton-temp-grid .proton-temp-bar {
+height: 4px !important;
+border-radius: 999px !important;
+}
+
+#proton-temp-grid .proton-temp-status {
+display: flex !important;
+align-items: center !important;
+justify-content: center !important;
+gap: 4px !important;
+margin-top: 6px !important;
+text-align: center !important;
+flex-wrap: wrap !important;
+}
+
+#proton-temp-grid .proton-temp-status-dot {
+width: 7px !important;
+height: 7px !important;
+}
+
+#proton-temp-grid .proton-temp-status-text {
+font-size: 11px !important;
+line-height: 1 !important;
+font-weight: 700 !important;
+}
+
+#proton-temp-grid .proton-temp-peak {
+display: none !important;
+}
+
+#proton-temp-grid .proton-temp-empty {
+grid-column: 1 / -1 !important;
+text-align: center !important;
+opacity: 0.75 !important;
+padding: 16px !important;
+}
+
+@media (max-width: 760px) {
+#proton-temp-grid {
+grid-template-columns: repeat(auto-fit, minmax(128px, 145px)) !important;
+max-width: 470px !important;
+}
+
+#proton-temp-grid .proton-temp-card {
+width: 145px !important;
+min-width: 128px !important;
+max-width: 145px !important;
+min-height: 92px !important;
+}
+}
+
+@media (max-width: 420px) {
+#proton-temp-grid {
+grid-template-columns: repeat(2, minmax(120px, 135px)) !important;
+max-width: 290px !important;
+}
+
+#proton-temp-grid .proton-temp-card {
+width: 135px !important;
+min-width: 120px !important;
+max-width: 135px !important;
+min-height: 90px !important;
+}
+}

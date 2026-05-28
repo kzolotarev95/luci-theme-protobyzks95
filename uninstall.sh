@@ -39,3 +39,16 @@ echo "[proton2025] restart services"
 echo "[proton2025] uninstalled OK"
 echo "[proton2025] backup:"
 cat /root/LAST-proton2025-uninstall-backup.txt
+
+# PROTON_TEMP_UNINSTALL_FINAL_BEGIN
+rm -f /usr/bin/proton2025-temperature-json
+rm -f /www/luci-static/proton2025/temp-grid-observer.js
+rm -f /www/luci-static/proton2025/temp-grid-polish.js
+rm -f /www/luci-static/proton2025/temperature-widget.js
+rm -f /www/luci-static/proton2025/temperature-inline-fix.js
+rm -f /www/luci-static/proton2025/native-temp-fill.js
+rm -f /www/luci-static/proton2025/temp-grid-native.js
+rm -f /www/luci-static/proton2025/temperature.json
+sed -i "/proton2025-temperature-json/d" /etc/crontabs/root 2>/dev/null || true
+/etc/init.d/cron restart 2>/dev/null || true
+# PROTON_TEMP_UNINSTALL_FINAL_END
