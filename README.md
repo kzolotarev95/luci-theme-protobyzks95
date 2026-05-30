@@ -166,7 +166,6 @@ LuCI progressbar получает цветовую индикацию:
 │           ├── login-logo-text.js
 │           ├── login-logo-animation-fix.js
 │           ├── progressbar-3colors.js
-│           ├── services-widget.js
 │           ├── settings-sync.js
 │           ├── translations.js
 │           ├── icons/
