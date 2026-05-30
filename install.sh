@@ -238,3 +238,7 @@ echo '* * * * * /usr/bin/proton2025-status-json-write >/dev/null 2>&1' >> /etc/c
 # PROTON_STATUS_CARDS_FIRSTBOOT_V941_INSTALL_BEGIN
 echo "[proton2025] status cards first boot v941 enabled"
 # PROTON_STATUS_CARDS_FIRSTBOOT_V941_INSTALL_END
+
+# PROTON_STATUS_CARDS_FORCE_LOADER_V942_INSTALL_BEGIN
+echo "[proton2025] status cards force loader v942 enabled"
+# PROTON_STATUS_CARDS_FORCE_LOADER_V942_INSTALL_END
