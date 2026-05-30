@@ -241,6 +241,7 @@ echo '* * * * * /usr/bin/proton2025-status-json-write >/dev/null 2>&1' >> /etc/c
 
 
 
-# PROTON_STATUS_CARDS_LOGIN_STATUS_V948_INSTALL_BEGIN
-echo "[proton2025] status cards login status v948 enabled"
-# PROTON_STATUS_CARDS_LOGIN_STATUS_V948_INSTALL_END
+
+# PROTON_STATUS_CARDS_CONTENT_DETECT_V949_INSTALL_BEGIN
+echo "[proton2025] status cards content detect v949 enabled"
+# PROTON_STATUS_CARDS_CONTENT_DETECT_V949_INSTALL_END

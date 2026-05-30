@@ -62,3 +62,8 @@ rm -f /www/luci-static/proton2025/status-cards-runtime-v947.js
 echo "[proton2025] remove status cards login status v948"
 rm -f /www/luci-static/proton2025/status-cards-runtime-v948.js
 # PROTON_STATUS_CARDS_LOGIN_STATUS_V948_UNINSTALL_END
+
+# PROTON_STATUS_CARDS_CONTENT_DETECT_V949_UNINSTALL_BEGIN
+echo "[proton2025] remove status cards content detect v949"
+rm -f /www/luci-static/proton2025/status-cards-runtime-v949.js
+# PROTON_STATUS_CARDS_CONTENT_DETECT_V949_UNINSTALL_END
