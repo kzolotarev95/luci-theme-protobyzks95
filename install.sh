@@ -246,3 +246,7 @@ echo "[proton2025] status cards force loader v942 enabled"
 # PROTON_STATUS_CARDS_RUNTIME_V943_INSTALL_BEGIN
 echo "[proton2025] status cards runtime v943 enabled"
 # PROTON_STATUS_CARDS_RUNTIME_V943_INSTALL_END
+
+# PROTON_STATUS_CARDS_SAFE_RUNTIME_V945_INSTALL_BEGIN
+echo "[proton2025] status cards safe runtime v945 enabled"
+# PROTON_STATUS_CARDS_SAFE_RUNTIME_V945_INSTALL_END

@@ -369,7 +369,6 @@ body {
 <style title="text/css">{{ css }}</style>
 {% endif %}
 <script src="/luci-static/proton2025/native-load-hide-v935.js?v=20260530-114035"></script>
-<script src="/luci-static/proton2025/status-cards-runtime-v943.js?v=20260530-120254"></script>
 </head>
 {% let __page = join('-', ctx.request_path); %}
 {% if (!__page && ctx.dispatch_path): __page = join('-', ctx.dispatch_path); endif %}

@@ -26,6 +26,6 @@
 <link rel="stylesheet" href="/luci-static/proton2025/status-cards-v931-font.css?v=20260530-113223">
 <link rel="stylesheet" href="/luci-static/proton2025/status-cards-v932-clean.css?v=20260530-113433">
 <script src="/luci-static/proton2025/status-text-clean-v932.js?v=20260530-113433"></script>
-<script src="/luci-static/proton2025/status-cards-settings-v934.js?v=20260530-113909"></script>
 <script src="/luci-static/proton2025/theme-settings-clean-v936.js?v=20260530-114156"></script>
 <link rel="stylesheet" href="/luci-static/proton2025/system-timesync-align-v937.css?v=20260530-114415">
+<script src="/luci-static/proton2025/status-cards-runtime-v945.js?v=20260530-120721"></script>
