@@ -1,132 +1,179 @@
 #!/bin/sh
-# PROTON_INSTALL_ORDER_FIX_NO_EARLY_RESOURCE_V916
+# PROTON2025_CLEAN_INSTALLER_NO_WIDGETS_V917
+
+set -u
 
 REPO_OWNER="${REPO_OWNER:-kzolotarev95}"
 REPO_NAME="${REPO_NAME:-luci-theme-protobyzks95}"
-BRANCH="${BRANCH:-main}"
+REPO_REF="${REPO_REF:-main}"
 
-STAMP="$(date +%Y%m%d-%H%M%S)"
-WORKDIR="/tmp/${REPO_NAME}-install-$$"
-TGZ="/tmp/${REPO_NAME}-${BRANCH}-$$.tar.gz"
-BACKUP="/root/proton2025-before-install-$STAMP.tar.gz"
+TS="$(date +%Y%m%d-%H%M%S)"
+PID="$$"
 
-echo "[proton2025] cleanup old temp/cache"
-rm -rf /tmp/${REPO_NAME}-install-* /tmp/${REPO_NAME}-*.tar.gz /tmp/luci-* /tmp/luci-indexcache*
-rm -rf /usr/lib/lua/luci/view/themes/proton2025
-find /www/luci-static -maxdepth 1 -type l -name 'proton2025-*' -exec rm -f {} \; 2>/dev/null || true
+WORKDIR="/tmp/${REPO_NAME}-install-${PID}"
+TGZ="/tmp/${REPO_NAME}-${REPO_REF}-${PID}.tar.gz"
+BACKUP="/root/proton2025-before-install-${TS}.tar.gz"
 
-FREE_KB="$(df -k /overlay 2>/dev/null | awk 'NR==2{print $4+0}')"
-if [ -n "$FREE_KB" ] && [ "$FREE_KB" -lt 3072 ]; then
-  echo "[proton2025] ERROR: not enough free flash space on /overlay"
-  echo "[proton2025] free: ${FREE_KB} KB, need at least 3072 KB"
-  df -h /overlay
-  exit 1
-fi
+THEME_DST="/www/luci-static/proton2025"
+RES_DST="/www/luci-static/resources"
+UCODE_DST="/usr/share/ucode/luci/template/themes/proton2025"
+CACHE_RESET="/usr/bin/proton2025-cache-reset"
 
-echo "[proton2025] backup: $BACKUP"
+URL="https://github.com/${REPO_OWNER}/${REPO_NAME}/archive/${REPO_REF}.tar.gz"
 
-tar -czf "$BACKUP" \
-  /www/luci-static/proton2025 \
-  /usr/share/ucode/luci/template/themes/proton2025 \
-  /etc/config/luci \
-  /usr/bin/proton2025-cache-reset 2>/tmp/proton2025-install-backup-warnings.log || true
-
-echo "$BACKUP" > /root/LAST-proton2025-install-backup.txt
-
-echo "[proton2025] download: $URL"
-
-if [ -n "${GH_TOKEN:-}" ]; then
-  wget --header="Authorization: Bearer $GH_TOKEN" -O "$TGZ" "$URL?v=$(date +%s)"
-else
-  wget -O "$TGZ" "$URL?v=$(date +%s)"
-fi
-
-if [ ! -s "$TGZ" ]; then
-  echo "[proton2025] ERROR: download failed"
-  rm -rf "$WORKDIR" "$TGZ"
-  exit 1
-fi
-
-tar -xzf "$TGZ" -C "$WORKDIR"
-
-CASCADE_FILE="$(find "$WORKDIR" -type f -path '*/htdocs/luci-static/proton2025/cascade.css' | head -n 1)"
-THEME_SRC="$(dirname "$CASCADE_FILE" 2>/dev/null)"
-
-UCODE_HEADER="$(find "$WORKDIR" -type f -path '*/ucode/template/themes/proton2025/header.ut' | head -n 1)"
-UCODE_SRC="$(dirname "$UCODE_HEADER" 2>/dev/null)"
-
-CACHE_RESET_SRC="$(find "$WORKDIR" -type f -path '*/root/usr/bin/proton2025-cache-reset' | head -n 1)"
-
-if [ ! -f "$CASCADE_FILE" ] || [ ! -d "$THEME_SRC" ]; then
-  echo "[proton2025] ERROR: cascade.css not found in archive"
-  find "$WORKDIR" -type f | sed -n '1,120p'
-  rm -rf "$WORKDIR" "$TGZ"
-  exit 1
-fi
-
-echo "[proton2025] theme source: $THEME_SRC"
-
-echo "[proton2025] install static files"
-rm -rf /www/luci-static/proton2025
-mkdir -p /www/luci-static/proton2025
-cp -a "$THEME_SRC/." /www/luci-static/proton2025/ || {
-  echo "[proton2025] ERROR: failed to copy static files"
-  df -h /overlay
-  exit 1
+say() {
+echo "[proton2025] $*"
 }
 
-if [ -d "$UCODE_SRC" ]; then
-  echo "[proton2025] install ucode templates"
-  rm -rf /usr/share/ucode/luci/template/themes/proton2025
-  mkdir -p /usr/share/ucode/luci/template/themes/proton2025
-  cp -a "$UCODE_SRC/." /usr/share/ucode/luci/template/themes/proton2025/ || {
-    echo "[proton2025] ERROR: failed to copy ucode templates"
-    df -h /overlay
-    exit 1
-  }
+fail() {
+echo "[proton2025] ERROR: $*" >&2
+rm -rf "$WORKDIR" "$TGZ" 2>/dev/null || true
+exit 1
+}
+
+say "cleanup old widget/temp runtime"
+
+rm -f "$THEME_DST/services-widget.js"
+rm -f "$THEME_DST/service-widget.js"
+rm -f "$THEME_DST/temp-grid-observer.js"
+rm -f "$THEME_DST/temp-grid-polish.js"
+rm -f "$THEME_DST/temp-grid-static.js"
+rm -f "$THEME_DST/temp-grid-native.js"
+rm -f "$THEME_DST/native-temp-fill.js"
+rm -f "$THEME_DST/temperature-widget.js"
+rm -f "$THEME_DST/temperature-inline-fix.js"
+rm -f "$THEME_DST/load-widget.js"
+rm -f "$THEME_DST/log-widget.js"
+rm -f "$THEME_DST/widgets.js"
+rm -f "$THEME_DST/system-widgets.js"
+rm -f "$THEME_DST/widget-settings-cleaner.js"
+rm -f "$THEME_DST/temperature.json"
+rm -f /usr/bin/proton2025-temperature-json
+
+sed -i '/proton2025-temperature-json/d' /etc/crontabs/root 2>/dev/null || true
+/etc/init.d/cron restart 2>/dev/null || true
+
+say "backup: $BACKUP"
+
+tar -czf "$BACKUP" \
+"$THEME_DST" \
+"$RES_DST/menu-proton2025.js" \
+"$UCODE_DST" \
+/etc/config/luci \
+"$CACHE_RESET" 2>/tmp/proton2025-install-backup-warnings.log || true
+
+rm -rf "$WORKDIR" "$TGZ"
+mkdir -p "$WORKDIR"
+
+say "download: $URL"
+
+wget -O "$TGZ" "${URL}?v=$(date +%s)" || fail "download failed"
+
+tar -xzf "$TGZ" -C "$WORKDIR" || fail "extract failed"
+
+THEME_SRC="$(find "$WORKDIR" -type d -path '*/htdocs/luci-static/proton2025' | head -n 1)"
+UCODE_SRC="$(find "$WORKDIR" -type d -path '*/ucode/template/themes/proton2025' | head -n 1)"
+RESOURCE_SRC="$(find "$WORKDIR" -type d -path '*/htdocs/luci-static/resources' | head -n 1)"
+CACHE_RESET_SRC="$(find "$WORKDIR" -type f -path '*/root/usr/bin/proton2025-cache-reset' | head -n 1)"
+
+[ -n "$THEME_SRC" ] || fail "theme source not found"
+[ -n "$UCODE_SRC" ] || fail "ucode templates not found"
+
+say "theme source: $THEME_SRC"
+
+say "install static files"
+rm -rf "$THEME_DST"
+mkdir -p "$THEME_DST"
+cp -a "$THEME_SRC/." "$THEME_DST/"
+
+say "install ucode templates"
+rm -rf "$UCODE_DST"
+mkdir -p "$UCODE_DST"
+cp -a "$UCODE_SRC/." "$UCODE_DST/"
+
+say "install LuCI shared resources"
+if [ -n "$RESOURCE_SRC" ]; then
+mkdir -p "$RES_DST"
+cp -a "$RESOURCE_SRC/." "$RES_DST/"
+else
+say "WARNING: shared resources directory not found"
 fi
 
-if [ -f "$CACHE_RESET_SRC" ]; then
-  echo "[proton2025] install cache reset helper"
-  cp -a "$CACHE_RESET_SRC" /usr/bin/proton2025-cache-reset
-  chmod +x /usr/bin/proton2025-cache-reset
+say "install cache reset helper"
+if [ -n "$CACHE_RESET_SRC" ]; then
+cp -a "$CACHE_RESET_SRC" "$CACHE_RESET"
+chmod +x "$CACHE_RESET"
+else
+say "WARNING: cache reset helper not found"
 fi
 
-echo "[proton2025] install LuCI shared resources"
-RESOURCE_SRC="$(find "$WORKDIR" -type d -path "*/htdocs/luci-static/resources" | head -n 1)"
-if [ -d "$RESOURCE_SRC" ]; then
-  mkdir -p /www/luci-static/resources
-  cp -a "$RESOURCE_SRC/." /www/luci-static/resources/ || { echo "[proton2025] ERROR: failed to copy LuCI resources"; exit 1; }
-fi
+say "final cleanup widget leftovers"
 
-echo "[proton2025] register theme in LuCI"
-uci -q get luci.themes >/dev/null 2>&1 || uci set luci.themes='internal'
+rm -f "$THEME_DST/services-widget.js"
+rm -f "$THEME_DST/service-widget.js"
+rm -f "$THEME_DST/temp-grid-observer.js"
+rm -f "$THEME_DST/temp-grid-polish.js"
+rm -f "$THEME_DST/temp-grid-static.js"
+rm -f "$THEME_DST/temp-grid-native.js"
+rm -f "$THEME_DST/native-temp-fill.js"
+rm -f "$THEME_DST/temperature-widget.js"
+rm -f "$THEME_DST/temperature-inline-fix.js"
+rm -f "$THEME_DST/load-widget.js"
+rm -f "$THEME_DST/log-widget.js"
+rm -f "$THEME_DST/widgets.js"
+rm -f "$THEME_DST/system-widgets.js"
+rm -f "$THEME_DST/widget-settings-cleaner.js"
+rm -f "$THEME_DST/temperature.json"
+rm -f /usr/bin/proton2025-temperature-json
+
+find "$UCODE_DST" -type f 2>/dev/null | while read F; do
+sed -i \
+-e '/services-widget\.js/d' \
+-e '/service-widget\.js/d' \
+-e '/temp-grid-observer\.js/d' \
+-e '/temp-grid-polish\.js/d' \
+-e '/temp-grid-static\.js/d' \
+-e '/temp-grid-native\.js/d' \
+-e '/native-temp-fill\.js/d' \
+-e '/temperature-widget\.js/d' \
+-e '/temperature-inline-fix\.js/d' \
+-e '/load-widget\.js/d' \
+-e '/log-widget\.js/d' \
+-e '/widgets\.js/d' \
+-e '/system-widgets\.js/d' \
+-e '/widget-settings-cleaner\.js/d' \
+"$F" 2>/dev/null || true
+done
+
+sed -i '/proton2025-temperature-json/d' /etc/crontabs/root 2>/dev/null || true
+/etc/init.d/cron restart 2>/dev/null || true
+
+say "register theme in LuCI"
+
+uci -q delete luci.themes.Proton2025 2>/dev/null || true
 uci set luci.themes.ProtoByZKS95='/luci-static/proton2025'
 uci set luci.main.mediaurlbase='/luci-static/proton2025'
 uci commit luci
 
+say "clear LuCI/browser cache safely"
 
-echo "[proton2025] clear LuCI/browser cache safely"
-if command -v proton2025-cache-reset >/dev/null 2>&1; then
-  proton2025-cache-reset
-else
-  rm -rf /tmp/luci-* /tmp/luci-indexcache*
-  /etc/init.d/rpcd restart 2>/dev/null || true
-  /etc/init.d/uhttpd restart 2>/dev/null || true
+rm -rf /tmp/luci-* /tmp/luci-indexcache* 2>/dev/null || true
+
+if [ -x "$CACHE_RESET" ]; then
+"$CACHE_RESET" 2>/dev/null || true
 fi
 
-rm -rf "$WORKDIR" "$TGZ"
+/etc/init.d/rpcd restart 2>/dev/null || true
+/etc/init.d/uhttpd restart 2>/dev/null || true
 
-echo "[proton2025] final theme name cleanup"
-uci -q delete luci.themes.Proton2025 2>/dev/null || true
-uci set luci.themes.ProtoByZKS95="/luci-static/proton2025"
-uci set luci.main.mediaurlbase="/luci-static/proton2025"
-uci commit luci
-
-echo "[proton2025] installed OK"
-echo "[proton2025] active mediaurlbase:"
+say "active mediaurlbase:"
 uci get luci.main.mediaurlbase 2>/dev/null || true
-echo "[proton2025] registered themes:"
-uci show luci.themes 2>/dev/null || true
-echo "[proton2025] backup:"
-cat /root/LAST-proton2025-install-backup.txt
+
+say "registered themes:"
+uci show luci | grep '^luci.themes' || true
+
+say "installed OK"
+say "backup:"
+echo "$BACKUP"
+
+rm -rf "$WORKDIR" "$TGZ" 2>/dev/null || true
