@@ -1,4 +1,5 @@
 #!/bin/sh
+# PROTON_INSTALL_ORDER_FIX_NO_EARLY_RESOURCE_V916
 
 REPO_OWNER="${REPO_OWNER:-kzolotarev95}"
 REPO_NAME="${REPO_NAME:-luci-theme-protobyzks95}"
@@ -31,20 +32,6 @@ tar -czf "$BACKUP" \
   /usr/bin/proton2025-cache-reset 2>/tmp/proton2025-install-backup-warnings.log || true
 
 echo "$BACKUP" > /root/LAST-proton2025-install-backup.txt
-
-echo "[proton2025] install LuCI JS resources"
-MENU_RESOURCE_SRC="$(find "$WORKDIR" -type f -path "*/htdocs/luci-static/resources/menu-proton2025.js" | head -n 1)"
-if [ -f "$MENU_RESOURCE_SRC" ]; then
-  mkdir -p /www/luci-static/resources
-  cp -a "$MENU_RESOURCE_SRC" /www/luci-static/resources/menu-proton2025.js || { echo "[proton2025] ERROR: failed to copy menu resource"; exit 1; }
-else
-  echo "[proton2025] WARNING: menu-proton2025.js not found in archive"
-fi
-
-rm -rf "$WORKDIR" "$TGZ"
-mkdir -p "$WORKDIR"
-
-URL="https://github.com/$REPO_OWNER/$REPO_NAME/archive/refs/heads/$BRANCH.tar.gz"
 
 echo "[proton2025] download: $URL"
 
