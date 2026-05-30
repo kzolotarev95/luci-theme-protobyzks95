@@ -234,3 +234,7 @@ echo '* * * * * /usr/bin/proton2025-status-json-write >/dev/null 2>&1' >> /etc/c
 /usr/bin/proton2025-status-json-write 2>/dev/null || true
 /etc/init.d/cron restart 2>/dev/null || true
 # PROTON_STATUS_CARDS_INSTALL_V939_END
+
+# PROTON_STATUS_CARDS_FIRSTBOOT_V941_INSTALL_BEGIN
+echo "[proton2025] status cards first boot v941 enabled"
+# PROTON_STATUS_CARDS_FIRSTBOOT_V941_INSTALL_END
