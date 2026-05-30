@@ -12758,3 +12758,269 @@ max-width: 135px !important;
 min-height: 90px !important;
 }
 }
+
+
+/* Proton2025: no jump compact temp cards + stable load average final */
+#proton-temp-widget {
+text-align: center !important;
+}
+
+#proton-temp-grid {
+display: grid !important;
+grid-template-columns: repeat(auto-fit, minmax(135px, 150px)) !important;
+justify-content: center !important;
+justify-items: center !important;
+align-items: stretch !important;
+gap: 10px !important;
+width: 100% !important;
+max-width: 520px !important;
+margin: 10px auto 0 auto !important;
+padding: 0 !important;
+}
+
+#proton-temp-grid .proton-temp-card {
+width: 150px !important;
+min-width: 135px !important;
+max-width: 150px !important;
+min-height: 96px !important;
+margin: 0 !important;
+padding: 10px 8px !important;
+box-sizing: border-box !important;
+text-align: center !important;
+border-radius: 14px !important;
+}
+
+#proton-temp-grid .proton-temp-value-wrapper {
+display: flex !important;
+align-items: baseline !important;
+justify-content: center !important;
+gap: 2px !important;
+}
+
+#proton-temp-grid .proton-temp-value {
+font-size: 19px !important;
+line-height: 1 !important;
+font-weight: 800 !important;
+}
+
+#proton-temp-grid .proton-temp-unit,
+#proton-temp-grid .proton-temp-sensor-name,
+#proton-temp-grid .proton-temp-status-text {
+font-size: 11px !important;
+}
+
+#proton-temp-grid .proton-temp-sensor-name {
+line-height: 1.15 !important;
+margin: 7px 0 0 0 !important;
+text-align: center !important;
+white-space: nowrap !important;
+overflow: hidden !important;
+text-overflow: ellipsis !important;
+}
+
+#proton-temp-grid .proton-temp-bar-container {
+width: 64% !important;
+margin: 7px auto 0 auto !important;
+}
+
+#proton-temp-grid .proton-temp-bar {
+height: 4px !important;
+border-radius: 999px !important;
+}
+
+#proton-temp-grid .proton-temp-status {
+display: flex !important;
+align-items: center !important;
+justify-content: center !important;
+gap: 4px !important;
+margin-top: 6px !important;
+text-align: center !important;
+flex-wrap: wrap !important;
+}
+
+#proton-temp-grid .proton-temp-status-dot {
+width: 7px !important;
+height: 7px !important;
+}
+
+#proton-temp-grid .proton-temp-peak {
+display: none !important;
+}
+
+/* ===== stable load average ===== */
+.proton-load-row {
+min-height: 64px !important;
+}
+
+.proton-load-average {
+display: grid !important;
+grid-template-columns: repeat(3, minmax(92px, 1fr)) auto !important;
+align-items: end !important;
+column-gap: 16px !important;
+row-gap: 6px !important;
+width: 100% !important;
+max-width: 520px !important;
+}
+
+.proton-load-item {
+min-width: 92px !important;
+max-width: 110px !important;
+}
+
+.proton-load-label {
+font-size: 12px !important;
+line-height: 1.2 !important;
+opacity: 0.9 !important;
+margin-bottom: 4px !important;
+white-space: nowrap !important;
+}
+
+.proton-load-value-row {
+display: flex !important;
+align-items: center !important;
+gap: 8px !important;
+min-height: 24px !important;
+}
+
+.proton-load-number {
+display: inline-block !important;
+width: 48px !important;
+min-width: 48px !important;
+text-align: left !important;
+font-variant-numeric: tabular-nums !important;
+font-feature-settings: "tnum" 1, "lnum" 1 !important;
+white-space: nowrap !important;
+}
+
+.proton-load-bar {
+width: 52px !important;
+min-width: 52px !important;
+max-width: 52px !important;
+height: 4px !important;
+flex: 0 0 52px !important;
+}
+
+.proton-load-bar-fill {
+height: 4px !important;
+transition: width 0.18s linear !important;
+}
+
+.proton-load-info {
+position: relative !important;
+align-self: center !important;
+justify-self: end !important;
+}
+
+/* вернуть нормальное поведение tooltip */
+.proton-load-tooltip {
+opacity: 0 !important;
+visibility: hidden !important;
+pointer-events: none !important;
+transition: opacity 0.18s ease !important;
+}
+
+.proton-load-info:hover .proton-load-tooltip,
+.proton-load-info:focus-within .proton-load-tooltip {
+opacity: 1 !important;
+visibility: visible !important;
+pointer-events: auto !important;
+}
+
+/* убрать старое кривое глобальное насилие */
+.proton-load-row,
+.proton-load-average,
+.proton-load-item,
+.proton-load-number,
+.proton-load-bar,
+.proton-load-bar-fill,
+.proton-load-label,
+.proton-load-value-row {
+transform: none !important;
+}
+
+@media (max-width: 640px) {
+.proton-load-average {
+grid-template-columns: repeat(3, minmax(82px, 1fr)) auto !important;
+column-gap: 10px !important;
+}
+.proton-load-item {
+min-width: 82px !important;
+max-width: 96px !important;
+}
+.proton-load-number {
+width: 42px !important;
+min-width: 42px !important;
+}
+.proton-load-bar {
+width: 42px !important;
+min-width: 42px !important;
+max-width: 42px !important;
+flex: 0 0 42px !important;
+}
+}
+
+@media (max-width: 420px) {
+#proton-temp-grid {
+grid-template-columns: repeat(2, minmax(120px, 135px)) !important;
+max-width: 290px !important;
+}
+
+#proton-temp-grid .proton-temp-card {
+width: 135px !important;
+min-width: 120px !important;
+max-width: 135px !important;
+min-height: 90px !important;
+}
+
+.proton-load-average {
+grid-template-columns: 1fr !important;
+row-gap: 10px !important;
+max-width: 180px !important;
+}
+
+.proton-load-info {
+justify-self: start !important;
+}
+}
+
+/* Proton2025: widgets removed completely */
+#proton-temp-widget,
+.proton-temp-widget,
+#proton-temp-grid,
+.proton-temp-grid,
+.proton-temp-card,
+.proton-service-widget,
+.proton-services-widget,
+#proton-services-widget,
+.proton-load-info .proton-load-tooltip {
+display: none !important;
+visibility: hidden !important;
+pointer-events: none !important;
+}
+
+/* Proton2025: remove old widget leftovers */
+#proton-temp-widget,
+.proton-temp-widget,
+#proton-temp-grid,
+.proton-temp-grid,
+.proton-temp-card,
+.proton-service-widget,
+.proton-services-widget,
+#proton-services-widget,
+.proton-load-info .proton-load-tooltip {
+display: none !important;
+visibility: hidden !important;
+pointer-events: none !important;
+}
+
+/* Proton2025: hide removed widget settings rows CSS only */
+#proton-theme-settings .cbi-value:has(#proton-services-widget-check),
+#proton-theme-settings .cbi-value:has(#proton-temp-widget-check),
+#proton-theme-settings .cbi-value:has(#proton-services-log-check),
+.cbi-value:has(#proton-services-widget-check),
+.cbi-value:has(#proton-temp-widget-check),
+.cbi-value:has(#proton-services-log-check) {
+display: none !important;
+visibility: hidden !important;
+pointer-events: none !important;
+}

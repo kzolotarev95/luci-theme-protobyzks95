@@ -118,21 +118,7 @@ uci set luci.themes.ProtoByZKS95='/luci-static/proton2025'
 uci set luci.main.mediaurlbase='/luci-static/proton2025'
 uci commit luci
 
-# PROTON_TEMP_INSTALL_FINAL_BEGIN
-echo "[proton2025] install temperature helper"
-TEMP_HELPER_SRC="$(find "$WORKDIR" -type f -path "*/root/usr/bin/proton2025-temperature-json" | head -n 1)"
-if [ -f "$TEMP_HELPER_SRC" ]; then
-  cp -a "$TEMP_HELPER_SRC" /usr/bin/proton2025-temperature-json
-  chmod +x /usr/bin/proton2025-temperature-json
-  /usr/bin/proton2025-temperature-json 2>/dev/null || true
-  mkdir -p /etc/crontabs
-  touch /etc/crontabs/root
-  sed -i "/proton2025-temperature-json/d" /etc/crontabs/root 2>/dev/null || true
-  echo "* * * * * /usr/bin/proton2025-temperature-json >/dev/null 2>&1" >> /etc/crontabs/root
-  /etc/init.d/cron restart 2>/dev/null || true
-fi
 
-# PROTON_TEMP_INSTALL_FINAL_END
 echo "[proton2025] clear LuCI/browser cache safely"
 if command -v proton2025-cache-reset >/dev/null 2>&1; then
   proton2025-cache-reset
