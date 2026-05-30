@@ -13024,3 +13024,85 @@ display: none !important;
 visibility: hidden !important;
 pointer-events: none !important;
 }
+
+/* PROTON_TABMENU_ALIGN_V938_BEGIN */
+/* Ровные вкладки LuCI: Основные настройки / Журналирование / Синхронизация времени / Язык и тема */
+#maincontent ul.cbi-tabmenu {
+  display: flex !important;
+  align-items: stretch !important;
+  justify-content: flex-start !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+  margin: 0 0 16px 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  list-style: none !important;
+}
+
+#maincontent ul.cbi-tabmenu > li,
+#maincontent ul.cbi-tabmenu > li.cbi-tab,
+#maincontent ul.cbi-tabmenu > li.cbi-tab-disabled {
+  float: none !important;
+  position: static !important;
+  top: auto !important;
+  bottom: auto !important;
+  display: flex !important;
+  align-items: stretch !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  line-height: 1.2 !important;
+  box-sizing: border-box !important;
+}
+
+#maincontent ul.cbi-tabmenu > li > a {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 40px !important;
+  height: 40px !important;
+  padding: 0 15px !important;
+  margin: 0 !important;
+  border-radius: 12px !important;
+  border: 1px solid rgba(255,255,255,.10) !important;
+  background: rgba(255,255,255,.045) !important;
+  color: inherit !important;
+  text-decoration: none !important;
+  line-height: 1.2 !important;
+  white-space: nowrap !important;
+  box-sizing: border-box !important;
+  transform: none !important;
+}
+
+#maincontent ul.cbi-tabmenu > li.cbi-tab > a {
+  border-color: rgba(120,160,255,.34) !important;
+  background: rgba(120,160,255,.13) !important;
+  box-shadow: 0 0 0 1px rgba(120,160,255,.08), 0 8px 18px rgba(0,0,0,.10) !important;
+  font-weight: 700 !important;
+}
+
+#maincontent ul.cbi-tabmenu > li.cbi-tab-disabled > a {
+  opacity: .82 !important;
+  font-weight: 600 !important;
+}
+
+#maincontent ul.cbi-tabmenu > li > a:hover {
+  background: rgba(120,160,255,.11) !important;
+  border-color: rgba(120,160,255,.28) !important;
+}
+
+@media (max-width: 760px) {
+  #maincontent ul.cbi-tabmenu {
+    gap: 7px !important;
+  }
+
+  #maincontent ul.cbi-tabmenu > li > a {
+    min-height: 38px !important;
+    height: 38px !important;
+    padding: 0 12px !important;
+    font-size: 12px !important;
+  }
+}
+/* PROTON_TABMENU_ALIGN_V938_END */

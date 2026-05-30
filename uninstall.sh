@@ -40,3 +40,10 @@ echo "[proton2025] uninstalled OK"
 echo "[proton2025] backup:"
 cat /root/LAST-proton2025-uninstall-backup.txt
 
+
+# PROTON_STATUS_CARDS_UNINSTALL_V939_BEGIN
+echo "[proton2025] remove status cards helper v939"
+sed -i '/proton2025-status-json-write/d' /etc/crontabs/root 2>/dev/null || true
+rm -f /usr/bin/proton2025-status-json-write /www/luci-static/proton2025/status.json
+/etc/init.d/cron restart 2>/dev/null || true
+# PROTON_STATUS_CARDS_UNINSTALL_V939_END

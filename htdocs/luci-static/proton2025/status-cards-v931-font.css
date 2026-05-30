@@ -1,0 +1,34 @@
+/* PROTON_STATUS_CARDS_FONT_SMALL_V931 */
+
+#proton-status-cards-v930 .psc-head .psc-title {
+  font-size: 16px !important;
+  font-weight: 700 !important;
+}
+
+#proton-status-cards-v930 .psc-head .psc-note {
+  font-size: 11px !important;
+  font-weight: 500 !important;
+}
+
+#proton-status-cards-v930 .psc-card .psc-label {
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  opacity: .72 !important;
+}
+
+#proton-status-cards-v930 .psc-card .psc-value {
+  font-size: 20px !important;
+  line-height: 24px !important;
+  font-weight: 700 !important;
+}
+
+#proton-status-cards-v930 .psc-card .psc-sub {
+  font-size: 10px !important;
+  line-height: 13px !important;
+  font-weight: 500 !important;
+  opacity: .68 !important;
+}
+
+#proton-status-cards-v930 .psc-card {
+  min-height: 98px !important;
+}

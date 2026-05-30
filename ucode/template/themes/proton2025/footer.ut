@@ -18,8 +18,15 @@
 
 </body>
 </html>
-<script src="/luci-static/proton2025/hostname-live-20.js?v=1780089008"></script>
-<script src="/luci-static/proton2025/hostname-animation-settings.js?v=1780089008"></script>
-<script src="/luci-static/proton2025/login-logo-text.js?v=1780089008"></script>
-<script src="/luci-static/proton2025/login-logo-animation-fix.js?v=1780089008"></script>
-<script src="/luci-static/proton2025/progressbar-3colors.js?v=1780089008"></script>
+<script src="/luci-static/proton2025/hostname-live-20.js?v=1780126121"></script>
+<script src="/luci-static/proton2025/hostname-animation-settings.js?v=1780126121"></script>
+<script src="/luci-static/proton2025/login-logo-text.js?v=1780126121"></script>
+<script src="/luci-static/proton2025/login-logo-animation-fix.js?v=1780126121"></script>
+<script src="/luci-static/proton2025/progressbar-3colors.js?v=1780126121"></script>
+<script src="/luci-static/proton2025/status-cards-v930.js"></script>
+<link rel="stylesheet" href="/luci-static/proton2025/status-cards-v931-font.css?v=20260530-113223">
+<link rel="stylesheet" href="/luci-static/proton2025/status-cards-v932-clean.css?v=20260530-113433">
+<script src="/luci-static/proton2025/status-text-clean-v932.js?v=20260530-113433"></script>
+<script src="/luci-static/proton2025/status-cards-settings-v934.js?v=20260530-113909"></script>
+<script src="/luci-static/proton2025/theme-settings-clean-v936.js?v=20260530-114156"></script>
+<link rel="stylesheet" href="/luci-static/proton2025/system-timesync-align-v937.css?v=20260530-114415">

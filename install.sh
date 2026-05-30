@@ -177,3 +177,60 @@ say "backup:"
 echo "$BACKUP"
 
 rm -rf "$WORKDIR" "$TGZ" 2>/dev/null || true
+
+# PROTON_STATUS_CARDS_INSTALL_V939_BEGIN
+echo "[proton2025] install status cards helper v939"
+
+cat > /usr/bin/proton2025-status-json-write <<'HLP'
+#!/bin/sh
+
+OUT="/www/luci-static/proton2025/status.json"
+TMP="/tmp/proton2025-status.$$"
+
+get_temp() {
+  for f in /sys/class/thermal/thermal_zone*/temp /sys/class/hwmon/hwmon*/temp1_input; do
+    [ -f "$f" ] || continue
+    v="$(cat "$f" 2>/dev/null | tr -dc '0-9')"
+    [ -n "$v" ] || continue
+    if [ "$v" -gt 1000 ] 2>/dev/null; then
+      awk "BEGIN { printf \"%.1f\", $v / 1000 }"
+    else
+      awk "BEGIN { printf \"%.1f\", $v }"
+    fi
+    return 0
+  done
+  printf "null"
+}
+
+LOAD1="$(cut -d' ' -f1 /proc/loadavg 2>/dev/null)"
+UPTIME="$(cut -d'.' -f1 /proc/uptime 2>/dev/null)"
+MEM_TOTAL_KB="$(awk '/MemTotal:/ {print $2}' /proc/meminfo 2>/dev/null)"
+MEM_AVAIL_KB="$(awk '/MemAvailable:/ {print $2}' /proc/meminfo 2>/dev/null)"
+
+[ -n "$LOAD1" ] || LOAD1="0"
+[ -n "$UPTIME" ] || UPTIME="0"
+[ -n "$MEM_TOTAL_KB" ] || MEM_TOTAL_KB="0"
+[ -n "$MEM_AVAIL_KB" ] || MEM_AVAIL_KB="0"
+
+MEM_TOTAL="$((MEM_TOTAL_KB * 1024))"
+MEM_AVAIL="$((MEM_AVAIL_KB * 1024))"
+TEMP="$(get_temp)"
+TS="$(date +%s)"
+
+mkdir -p /www/luci-static/proton2025
+printf '{"load1":%s,"mem_total":%s,"mem_avail":%s,"uptime":%s,"temp":%s,"ts":%s}\n' \
+  "$LOAD1" "$MEM_TOTAL" "$MEM_AVAIL" "$UPTIME" "$TEMP" "$TS" > "$TMP" && mv "$TMP" "$OUT"
+chmod 0644 "$OUT" 2>/dev/null || true
+HLP
+
+chmod +x /usr/bin/proton2025-status-json-write
+
+mkdir -p /etc/crontabs
+touch /etc/crontabs/root
+grep -v 'proton2025-status-json-write' /etc/crontabs/root > /tmp/proton2025-cron-root 2>/dev/null || true
+cat /tmp/proton2025-cron-root > /etc/crontabs/root 2>/dev/null || true
+echo '* * * * * /usr/bin/proton2025-status-json-write >/dev/null 2>&1' >> /etc/crontabs/root
+
+/usr/bin/proton2025-status-json-write 2>/dev/null || true
+/etc/init.d/cron restart 2>/dev/null || true
+# PROTON_STATUS_CARDS_INSTALL_V939_END

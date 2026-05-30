@@ -26,7 +26,6 @@
     "proton-temp-widget-enabled": "temp_widget",
     "proton-services-log": "services_log",
     "proton-table-wrap": "table_wrap",
-    "proton-log-highlight": "log_highlight",
     "proton-page-width": "page_width",
     "proton-custom-font": "custom_font",
   };
@@ -47,7 +46,6 @@
       "temp_widget",
       "services_log",
       "table_wrap",
-      "log_highlight",
       "custom_font",
     ];
 
@@ -69,7 +67,6 @@
       "temp_widget",
       "services_log",
       "table_wrap",
-      "log_highlight",
       "custom_font",
     ];
 
@@ -276,7 +273,6 @@
         "proton-temp-widget-enabled": "true",
         "proton-services-log": "false",
         "proton-table-wrap": "false",
-        "proton-log-highlight": "true",
         "proton-page-width": "",
         "proton-custom-font": "true",
       };

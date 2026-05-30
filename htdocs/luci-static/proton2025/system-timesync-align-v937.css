@@ -1,0 +1,94 @@
+/* PROTON_SYSTEM_TIMESYNC_ALIGN_V937 */
+
+/* Только System -> Синхронизация времени */
+#maincontent [data-tab="timesync"] {
+  padding-top: 4px !important;
+}
+
+#maincontent [data-tab="timesync"] .cbi-value {
+  display: grid !important;
+  grid-template-columns: minmax(220px, 30%) minmax(0, 1fr) !important;
+  align-items: center !important;
+  gap: 12px !important;
+  padding: 12px 0 !important;
+  margin: 0 !important;
+  border-bottom: 1px solid rgba(255,255,255,.06) !important;
+}
+
+#maincontent [data-tab="timesync"] .cbi-value-title {
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  line-height: 1.35 !important;
+  text-align: left !important;
+  align-self: center !important;
+}
+
+#maincontent [data-tab="timesync"] .cbi-value-field {
+  min-width: 0 !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+#maincontent [data-tab="timesync"] .cbi-checkbox {
+  margin: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 34px !important;
+}
+
+#maincontent [data-tab="timesync"] .cbi-dropdown,
+#maincontent [data-tab="timesync"] .cbi-input-select,
+#maincontent [data-tab="timesync"] .cbi-input-text,
+#maincontent [data-tab="timesync"] .cbi-dynlist {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+#maincontent [data-tab="timesync"] .cbi-dynlist {
+  width: min(100%, 720px) !important;
+}
+
+#maincontent [data-tab="timesync"] .cbi-dynlist .item {
+  margin: 3px 6px 3px 0 !important;
+}
+
+#maincontent [data-tab="timesync"] .cbi-dynlist .add-item {
+  margin-top: 8px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+#maincontent [data-tab="timesync"] .cbi-value-description {
+  width: 100% !important;
+  margin-top: 5px !important;
+  line-height: 1.35 !important;
+  opacity: .72 !important;
+}
+
+@media (max-width: 760px) {
+  #maincontent [data-tab="timesync"] .cbi-value {
+    display: block !important;
+    padding: 12px 0 !important;
+  }
+
+  #maincontent [data-tab="timesync"] .cbi-value-title {
+    display: block !important;
+    margin-bottom: 7px !important;
+  }
+
+  #maincontent [data-tab="timesync"] .cbi-value-field {
+    width: 100% !important;
+  }
+}

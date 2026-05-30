@@ -85,7 +85,7 @@
 	if (pw && parseInt(pw) > 0 && window.innerWidth >= 800) {
 		document.documentElement.style.setProperty('--proton-page-max-width', pw + '%');
 	}
-	// Устанавливаем фоновый цвет ДО загрузки cascade.css?v=1780089008, чтобы избежать мерцания градиента
+	// Устанавливаем фоновый цвет ДО загрузки cascade.css?v=1780126121, чтобы избежать мерцания градиента
 	var bgSolid = themeMode === 'light' ? '#ffffff' : '#0f1419';
 	document.documentElement.style.setProperty('background-color', bgSolid);
 })();
@@ -98,7 +98,7 @@
 <link rel="preload" href="{{ media }}/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="preload" href="{{ media }}/fonts/inter-cyrillic.woff2" as="font" type="font/woff2" crossorigin />
 <style>
-/* Critical: background and gradient before cascade.css?v=1780089008 to prevent FOUC */
+/* Critical: background and gradient before cascade.css?v=1780126121 to prevent FOUC */
 html {
 	height: 100%;
 	background-color: #0f1419;
@@ -123,7 +123,7 @@ body {
 		linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
 }
 
-/* Critical: keep header height stable before cascade.css?v=1780089008 loads */
+/* Critical: keep header height stable before cascade.css?v=1780126121 loads */
 :root {
 	--proton-page-max-width: 990px;
 	--proton-page-gutter: 20px;
@@ -144,7 +144,7 @@ body {
 	padding: 0 var(--proton-page-gutter);
 }
 
-/* Critical: prevent "Loading view…" flash/jump before cascade.css?v=1780089008 is loaded */
+/* Critical: prevent "Loading view…" flash/jump before cascade.css?v=1780126121 is loaded */
 #maincontent > .spinning,
 #maincontent > p.spinning,
 #view > .spinning,
@@ -170,7 +170,7 @@ body {
 	margin-top: 0;
 }
 </style>
-<link rel="stylesheet" media="screen" href="{{ media }}/cascade.css?v=1780089008" />
+<link rel="stylesheet" media="screen" href="{{ media }}/cascade.css?v=1780126121" />
 <link rel="icon" href="{{ media }}/logo.svg" sizes="any" />
 <script src="{{ dispatcher.build_url('admin/translations', dispatcher.lang) }}"></script>
 <script src="{{ resource }}/luci.js"></script>
@@ -368,6 +368,7 @@ body {
 {% if (css): %}
 <style title="text/css">{{ css }}</style>
 {% endif %}
+<script src="/luci-static/proton2025/native-load-hide-v935.js?v=20260530-114035"></script>
 </head>
 {% let __page = join('-', ctx.request_path); %}
 {% if (!__page && ctx.dispatch_path): __page = join('-', ctx.dispatch_path); endif %}

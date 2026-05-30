@@ -1,0 +1,10 @@
+/* PROTON_STATUS_CARDS_TEXT_CLEAN_V932 */
+
+#proton-status-cards-v930 .psc-note {
+  display: none !important;
+}
+
+#proton-status-cards-v930 .psc-head {
+  height: auto !important;
+  margin-bottom: 12px !important;
+}
