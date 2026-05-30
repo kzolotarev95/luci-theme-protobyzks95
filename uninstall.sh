@@ -57,3 +57,8 @@ rm -f /www/luci-static/proton2025/status-cards-runtime-v946.js
 echo "[proton2025] remove status cards spa watch v947"
 rm -f /www/luci-static/proton2025/status-cards-runtime-v947.js
 # PROTON_STATUS_CARDS_SPA_WATCH_V947_UNINSTALL_END
+
+# PROTON_STATUS_CARDS_LOGIN_STATUS_V948_UNINSTALL_BEGIN
+echo "[proton2025] remove status cards login status v948"
+rm -f /www/luci-static/proton2025/status-cards-runtime-v948.js
+# PROTON_STATUS_CARDS_LOGIN_STATUS_V948_UNINSTALL_END
