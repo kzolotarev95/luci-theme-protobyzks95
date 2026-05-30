@@ -235,18 +235,10 @@ echo '* * * * * /usr/bin/proton2025-status-json-write >/dev/null 2>&1' >> /etc/c
 /etc/init.d/cron restart 2>/dev/null || true
 # PROTON_STATUS_CARDS_INSTALL_V939_END
 
-# PROTON_STATUS_CARDS_FIRSTBOOT_V941_INSTALL_BEGIN
-echo "[proton2025] status cards first boot v941 enabled"
-# PROTON_STATUS_CARDS_FIRSTBOOT_V941_INSTALL_END
 
-# PROTON_STATUS_CARDS_FORCE_LOADER_V942_INSTALL_BEGIN
-echo "[proton2025] status cards force loader v942 enabled"
-# PROTON_STATUS_CARDS_FORCE_LOADER_V942_INSTALL_END
 
-# PROTON_STATUS_CARDS_RUNTIME_V943_INSTALL_BEGIN
-echo "[proton2025] status cards runtime v943 enabled"
-# PROTON_STATUS_CARDS_RUNTIME_V943_INSTALL_END
 
-# PROTON_STATUS_CARDS_SAFE_RUNTIME_V945_INSTALL_BEGIN
-echo "[proton2025] status cards safe runtime v945 enabled"
-# PROTON_STATUS_CARDS_SAFE_RUNTIME_V945_INSTALL_END
+
+# PROTON_STATUS_CARDS_WAIT_OVERVIEW_V946_INSTALL_BEGIN
+echo "[proton2025] status cards wait overview v946 enabled"
+# PROTON_STATUS_CARDS_WAIT_OVERVIEW_V946_INSTALL_END
